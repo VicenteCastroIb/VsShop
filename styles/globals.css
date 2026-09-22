@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------
+   VsShop — tokens de marca
+   Cambia --accent para re-tematizar toda la tienda por temporada.
+   ------------------------------------------------------------------ */
+:root {
+  --accent: #2b39ff; /* azul eléctrico */
+  --ink: #0b0b0c;
+  --paper: #f3f3f2;
+  --font-display: 'Anton', 'Impact', sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@layer components {
+  /* Botón sólido negro que pasa a color de acento (como en la referencia). */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-ink text-white
+      font-semibold uppercase tracking-wide px-6 py-4 text-sm
+      transition-colors duration-200 hover:bg-accent;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 border border-ink/80
+      text-ink font-semibold uppercase tracking-wide px-5 py-3 text-xs
+      transition-colors duration-200 hover:bg-ink hover:text-white;
+  }
+
+  /* Eyebrow con punto de color. */
+  .eyebrow {
+    @apply flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em]
+      text-accent;
+  }
+
+  .headline {
+    @apply font-display uppercase leading-[0.92] tracking-tight;
+  }
+}
+
+/* Duplicamos el contenido de la cinta y animamos a -50% para un loop
+   perfecto y sin cortes. Respetamos prefers-reduced-motion. */
+/* Keyframes definidos aquí (CSS plano) para que NUNCA se purguen.
+   Antes estaban solo en tailwind.config y Tailwind los eliminaba porque
+   no se usaba la utilidad animate-marquee → la cinta quedaba quieta. */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  /* La duración se ajusta al contenido (más ancho ahora) para mantener
+     una velocidad de desplazamiento cómoda. */
+  animation: marquee 50s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* Oculta scrollbars en carruseles horizontales. */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
