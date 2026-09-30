@@ -7,9 +7,9 @@
    Cambia --accent para re-tematizar toda la tienda por temporada.
    ------------------------------------------------------------------ */
 :root {
-  --accent: #2b39ff; /* azul eléctrico */
-  --ink: #0b0b0c;
-  --paper: #f3f3f2;
+  --accent: #9e4a57; /* rosa viejo — temporada collares (AA sobre paper y blanco) */
+  --ink: #1b1816; /* negro cálido, tono del collar negro */
+  --paper: #efe9e3; /* piedra cálida, tono del fondo de las fotos */
   --font-display: 'Anton', 'Impact', sans-serif;
   --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }

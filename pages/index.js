@@ -18,7 +18,7 @@ export default function Home() {
           content={`${STORE.name}: pocos productos por temporada, bien elegidos. Despacho a todo Chile y pago seguro con Mercado Pago.`}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#0b0b0c" />
+        <meta name="theme-color" content="#1b1816" />
       </Head>
 
       <Layout>

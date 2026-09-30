@@ -45,9 +45,9 @@ export default function ProductCard({ product }) {
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-4">
-        <div className="flex items-baseline justify-between gap-2">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-2">
           <h3 className="font-display text-xl uppercase leading-none">{product.name}</h3>
-          <div className="text-right">
+          <div className="flex items-baseline gap-2 sm:block sm:text-right">
             <span className="block font-bold">
               {STORE.currencySymbol}
               {formatCLP(product.price)}

@@ -12,8 +12,8 @@ module.exports = {
         // (styles/globals.css). Cámbialo una sola vez ahí para re-tematizar
         // toda la tienda por temporada.
         accent: 'var(--accent)',
-        ink: '#0b0b0c',
-        paper: '#f3f3f2',
+        ink: '#1b1816',
+        paper: '#efe9e3',
       },
       fontFamily: {
         // Titulares condensados y pesados (estilo streetwear).
