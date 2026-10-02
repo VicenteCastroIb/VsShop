@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
+import StatusBlock from '../components/StatusBlock';
 import { STORE } from '../lib/store';
 import { track, makeEventId } from '../lib/fpixel';
 
@@ -40,23 +41,11 @@ export default function Gracias() {
   }, [router.isReady, router.query]);
 
   return (
-    <Layout showBottomBar={false}>
+    <Layout>
       <StatusBlock
         title="¡Gracias por tu compra!"
         text="Tu pago fue aprobado. Te contactaremos al teléfono que dejaste para coordinar el envío."
       />
     </Layout>
-  );
-}
-
-function StatusBlock({ title, text }) {
-  return (
-    <section className="mx-auto flex max-w-md flex-col items-center px-4 py-20 text-center">
-      <h1 className="headline text-4xl">{title}</h1>
-      <p className="mt-4 text-ink/70">{text}</p>
-      <a href="/" className="btn-primary mt-8">
-        Volver al inicio
-      </a>
-    </section>
   );
 }

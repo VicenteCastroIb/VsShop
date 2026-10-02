@@ -3,30 +3,40 @@
 @tailwind utilities;
 
 /* ------------------------------------------------------------------
-   VsShop — tokens de marca
-   Cambia --accent para re-tematizar toda la tienda por temporada.
+   VsShop — tema "negro elegante"
+   Los mismos colores viven en tailwind.config.js (night, surface, gold…).
    ------------------------------------------------------------------ */
 :root {
-  --accent: #9e4a57; /* rosa viejo — temporada collares (AA sobre paper y blanco) */
-  --ink: #1b1816; /* negro cálido, tono del collar negro */
-  --paper: #efe9e3; /* piedra cálida, tono del fondo de las fotos */
-  --font-display: 'Anton', 'Impact', sans-serif;
-  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --base: #0a0a0b;
+  --surface: #141416;
+  --ivory: #f4f1ea;
+  --gold: #c9a55c;
+  color-scheme: dark;
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
 html,
 body {
   margin: 0;
   padding: 0;
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-sans);
+  background: var(--base);
+  color: var(--ivory);
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: 0.035em;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+body {
+  overflow-x: hidden;
 }
 
 a {
@@ -34,57 +44,39 @@ a {
   text-decoration: none;
 }
 
+button {
+  letter-spacing: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
 @layer components {
-  /* Botón sólido negro que pasa a color de acento (como en la referencia). */
-  .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 bg-ink text-white
-      font-semibold uppercase tracking-wide px-6 py-4 text-sm
-      transition-colors duration-200 hover:bg-accent;
+  /* Botón principal dorado (Comprar ahora, Pagar). */
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-gold px-6 py-4
+      text-lg font-bold text-night transition duration-200
+      hover:brightness-110 active:scale-[0.99]
+      disabled:cursor-not-allowed disabled:opacity-50;
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 border border-ink/80
-      text-ink font-semibold uppercase tracking-wide px-5 py-3 text-xs
-      transition-colors duration-200 hover:bg-ink hover:text-white;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-gold/60
+      px-5 py-3 text-sm font-semibold text-gold transition-colors duration-200
+      hover:bg-gold hover:text-night;
   }
 
-  /* Eyebrow con punto de color. */
-  .eyebrow {
-    @apply flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em]
-      text-accent;
+  /* Titulares de sección, centrados y pesados como en la referencia. */
+  .section-title {
+    @apply text-center text-[1.7rem] font-bold leading-tight tracking-wide text-ivory sm:text-4xl;
   }
 
-  .headline {
-    @apply font-display uppercase leading-[0.92] tracking-tight;
-  }
-}
-
-/* Duplicamos el contenido de la cinta y animamos a -50% para un loop
-   perfecto y sin cortes. Respetamos prefers-reduced-motion. */
-/* Keyframes definidos aquí (CSS plano) para que NUNCA se purguen.
-   Antes estaban solo en tailwind.config y Tailwind los eliminaba porque
-   no se usaba la utilidad animate-marquee → la cinta quedaba quieta. */
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.marquee-track {
-  display: flex;
-  width: max-content;
-  /* La duración se ajusta al contenido (más ancho ahora) para mantener
-     una velocidad de desplazamiento cómoda. */
-  animation: marquee 50s linear infinite;
-  will-change: transform;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation: none;
+  /* Campo de formulario oscuro. */
+  .field {
+    @apply w-full rounded-md border border-white/15 bg-night px-3 py-2.5 text-base
+      text-ivory placeholder:text-muted/60 focus:border-gold focus:outline-none;
   }
 }
 
@@ -95,4 +87,19 @@ a {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Respeta la zona segura del iPhone en las barras fijas inferiores. */
+.safe-bottom {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }

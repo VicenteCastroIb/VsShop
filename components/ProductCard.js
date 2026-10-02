@@ -1,99 +1,52 @@
-import { STORE, formatCLP, discountPercent, isBuyable } from '../lib/store';
-import { useCart } from '../lib/cart';
+import Link from 'next/link';
+import { money, discountPercent, productHref } from '../lib/store';
+import { TagIcon } from './Icons';
 
-// Etiqueta de estado (esquina superior de la card).
-function StatusBadge({ status }) {
-  if (status === 'preorder') {
-    return (
-      <span className="absolute left-0 top-3 bg-accent px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white">
-        Preventa
-      </span>
-    );
-  }
-  if (status === 'soldout') {
-    return (
-      <span className="absolute left-0 top-3 bg-ink/80 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white">
-        Agotado
-      </span>
-    );
-  }
-  return null;
-}
-
-// Tarjeta de producto real.
+// Tarjeta de producto: foto, sello de ahorro, nombre y precio.
 export default function ProductCard({ product }) {
-  const { add } = useCart();
   const off = discountPercent(product);
-  const buyable = isBuyable(product);
+  const soldOut = product.status === 'soldout';
 
   return (
-    <article className="flex flex-col border border-ink/10 bg-white">
-      <div className="relative aspect-square overflow-hidden bg-paper">
-        <StatusBadge status={product.status} />
-        {product.image ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={product.image}
-            alt={product.name}
-            className="h-full w-full object-cover"
-          />
+    <Link
+      href={productHref(product)}
+      className="group flex h-full flex-col overflow-hidden rounded-lg border border-white/10 bg-surface shadow-lg shadow-black/40"
+    >
+      <div className="relative aspect-square overflow-hidden bg-tile">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={product.image}
+          alt={product.name}
+          width="1000"
+          height="1000"
+          loading="lazy"
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        {soldOut ? (
+          <span className="absolute left-0 top-3 rounded-r-md bg-night px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-ivory">
+            Agotado
+          </span>
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-ink/20 font-display text-4xl">
-            {STORE.name}
-          </div>
-        )}
-      </div>
-
-      <div className="flex flex-1 flex-col gap-2 p-4">
-        <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-2">
-          <h3 className="font-display text-xl uppercase leading-none">{product.name}</h3>
-          <div className="flex items-baseline gap-2 sm:block sm:text-right">
-            <span className="block font-bold">
-              {STORE.currencySymbol}
-              {formatCLP(product.price)}
+          off > 0 && (
+            <span className="absolute left-0 top-3 flex items-center gap-1.5 rounded-r-md bg-night px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-gold">
+              <TagIcon className="h-3.5 w-3.5" />
+              Ahorra {off}%
             </span>
-            {off > 0 && (
-              <span className="text-xs text-ink/40 line-through">
-                {STORE.currencySymbol}
-                {formatCLP(product.compareAtPrice)}
-              </span>
-            )}
-          </div>
-        </div>
-
-        {product.tagline && (
-          <p className="text-sm text-ink/60">{product.tagline}</p>
+          )
         )}
+      </div>
 
-        <button
-          type="button"
-          disabled={!buyable}
-          onClick={() => add(product.id)}
-          className="mt-auto border border-ink px-4 py-3 text-xs font-bold uppercase tracking-wide transition-colors hover:bg-ink hover:text-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-ink"
-        >
-          {product.status === 'soldout'
-            ? 'Agotado'
-            : product.status === 'preorder'
-            ? 'Reservar'
-            : 'Agregar al carrito'}
-        </button>
+      <div className="flex flex-1 flex-col items-center px-3 pb-5 pt-4 text-center">
+        <h3 className="text-[15px] font-bold leading-snug sm:text-base">{product.name}</h3>
+        <p className="mt-2 flex flex-wrap items-baseline justify-center gap-x-2">
+          <span className="text-base font-bold tabular-nums text-gold">{money(product.price)}</span>
+          {off > 0 && (
+            <span className="text-xs font-semibold tabular-nums text-muted line-through">
+              {money(product.compareAtPrice)}
+            </span>
+          )}
+        </p>
       </div>
-    </article>
-  );
-}
-
-// Tarjeta "placeholder" mientras no hay productos cargados.
-export function ProductCardPlaceholder() {
-  return (
-    <article className="flex flex-col border border-dashed border-ink/20 bg-white/50">
-      <div className="flex aspect-square items-center justify-center bg-paper text-ink/25">
-        <span className="text-xs font-semibold uppercase tracking-widest">Producto</span>
-      </div>
-      <div className="flex flex-1 flex-col gap-2 p-4">
-        <div className="h-4 w-2/3 rounded bg-ink/10" />
-        <div className="h-3 w-1/2 rounded bg-ink/10" />
-        <div className="mt-auto h-10 w-full border border-dashed border-ink/20" />
-      </div>
-    </article>
+    </Link>
   );
 }

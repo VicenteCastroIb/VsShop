@@ -8,18 +8,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // El color de acento se controla con la variable CSS --accent
-        // (styles/globals.css). Cámbialo una sola vez ahí para re-tematizar
-        // toda la tienda por temporada.
-        accent: 'var(--accent)',
-        ink: '#1b1816',
-        paper: '#efe9e3',
+        // Paleta "negro elegante". Para re-tematizar por temporada cambia
+        // estos hex (y los mismos valores en styles/globals.css).
+        night: '#0a0a0b', // fondo de la página
+        surface: '#141416', // tarjetas y secciones destacadas
+        raised: '#1e1e21', // elementos sobre una tarjeta
+        ivory: '#f4f1ea', // texto principal
+        muted: '#a9a49b', // texto secundario
+        gold: '#c9a55c', // acento: precios, botones, detalles
+        tile: '#f5f5f5', // fondo de las fotos de producto
       },
       fontFamily: {
-        // Titulares condensados y pesados (estilo streetwear).
-        display: ['var(--font-display)', 'Impact', 'sans-serif'],
-        // Texto e interfaz.
-        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        // Logo condensado.
+        display: ['Anton', 'Impact', 'sans-serif'],
+        // Titulares, texto e interfaz.
+        sans: ['Poppins', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
       },
     },
   },
